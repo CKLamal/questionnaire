@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Travel Preferences Result</title>
+
+</head>
+
+<body>
+  <h1>Travel Preferences Result</h1>
+  <p>Total Participants: <span id="totalParticipants"></span></p>
+  <p>Total Countries Selected: <span id="totalCountriesSelected"></span></p>
+
+
+  <div class="chart-container">
+    <p>Top 3 Countries</p>
+    <svg id="topCountriesChart"></svg>
+  </div>
+
+  <div class="chart-container">
+    <p>All countries votes counts</p>
+    <svg id="totalCountriesChart"></svg>
+  </div>
+
+  <div class="chart-container">
+    <p>Last 24H Votes</p>
+    <svg id="last24HoursChart"></svg>
+  </div>
+
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script>
+    const totalParticipants = {{ total_participants }};
+    const totalCountriesSelected = {{ total_countries_selected }};
+    const voteCounts = JSON.parse('{{ vote_counts | tojson | safe }}');
+    const topCountries = JSON.parse('{{ top_countries | tojson | safe }}');
+    const voteDistribution = JSON.parse('{{ vote_distribution | tojson | safe }}');
+
+    // const topCountriesChart = d3.select('#topCountriesChart');
+    // topCountriesChart.append('text')
+    //   .attr('x', 150)
+    //   .attr('y', -10)
+    //   .style('text-anchor', 'middle')
+    //   .text('Top Countries');
+
+    // const xScale = d3.scaleBand()
+    //   .domain(topCountries.map(d => d[0]))
+    //   .range([0, 250])
+    //   .padding(0.2);
+
+    // const yScale = d3.scaleLinear()
+    //   .domain([0, d3.max(topCountries, d => d[1])])
+    //   .range([100, 0]);
+
+    // topCountriesChart.selectAll('rect')
+    //   .data(topCountries)
+    //   .join('rect')
+    //   .attr('x', d => xScale(d[0]))
+    //   .attr('y', d => yScale(d[1]))
+    //   .attr('width', xScale.bandwidth())
+    //   .attr('height', d => 100 - yScale(d[1]))
+    //   .attr('fill', '#1f77b4');
+
+    // topCountriesChart.selectAll('text')
+    //   .data(topCountries)
+    //   .join('text')
+    //   .text(d => d[1])
+    //   .attr('x', d => xScale(d[0]) + xScale.bandwidth() / 2)
+    //   .attr('y', d => yScale(d[1]) - 5)
+    //   .style('text-anchor', 'middle');
+
+    // // Create the chart for total countries as a pie chart
+    // const totalCountriesChart = d3.select('#totalCountriesChart');
+    // totalCountriesChart.append('text')
+    //   .attr('x', 150)
+    //   .attr('y', -10)
+    //   .style('text-anchor', 'middle')
+    //   .text('Total Countries');
+
+    // const totalCountriesPie = d3.pie()
+    //   .value(d => d[1])
+    //   .startAngle(0)
+    //   .endAngle(2 * Math.PI);
+
+    // const totalCountriesArc = d3.arc()
+    //   .innerRadius(0)
+    //   .outerRadius(100);
+
+    // const totalCountriesArcs = totalCountriesPie(voteCounts);
+
+    // totalCountriesChart.selectAll('path')
+    //   .data(totalCountriesArcs)
+    //   .join('path')
+    //   .attr('d', totalCountriesArc)
+    //   .attr('fill', (_, i) => d3.schemeCategory10[i]);
+
+    // // Create the chart for last 24-hour vote distribution as a bar chart
+    // const last24HoursChart = d3.select('#last24HoursChart');
+    // last24HoursChart.append('text')
+    //   .attr('x', 150)
+    //   .attr('y', -10)
+    //   .style('text-anchor', 'middle')
+    //   .text('Last 24-Hour Vote Distribution');
+
+    // const xScaleLast24Hours = d3.scaleBand()
+    //   .domain(voteDistribution.map(d => d[0].toString()))
+    //   .range([0, 250])
+    //   .padding(0.2);
+
+    // const yScaleLast24Hours = d3.scaleLinear()
+    //   .domain([0, d3.max(voteDistribution, d => d[1])])
+    //   .range([100, 0]);
+
+    // last24HoursChart.selectAll('rect')
+    //   .data(voteDistribution)
+    //   .join('rect')
+    //   .attr('x', d => xScaleLast24Hours(d[0].toString()))
+    //   .attr('y', d => yScaleLast24Hours(d[1]))
+    //   .attr('width', xScaleLast24Hours.bandwidth())
+    //   .attr('height', d => 100 - yScaleLast24Hours(d[1]))
+    //   .attr('fill', '#1f77b4');
+
+    // last24HoursChart.selectAll('text')
+    //   .data(voteDistribution)
+    //   .join('text')
+    //   .text(d => d[1])
+    //   .attr('x', d => xScaleLast24Hours(d[0].toString()) + xScaleLast24Hours.bandwidth() / 2)
+    //   .attr('y', d => yScaleLast24Hours(d[1]) - 5)
+    //   .style('text-anchor', 'middle');
+  </script>
+</body>
+
+</html>

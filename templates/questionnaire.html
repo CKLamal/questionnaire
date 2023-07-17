@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Travel Preferences Questionnaire</title>
+  <style>
+    .checkbox-list {
+      list-style-type: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Travel Preferences Questionnaire</h1>
+  <form id="preferencesForm">
+    <label for="participantName">Participant Name:</label>
+    <input type="text" id="participantName" name="participantName" required>    
+    <fieldset>
+      <legend>Select up to 5 countries:</legend>
+      <ul class="checkbox-list">
+        <li>
+          <label>
+            <input type="checkbox" name="country" value="1">
+            Japan
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" name="country" value="2">
+            Korea
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" name="country" value="3">
+            Singapore
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" name="country" value="4">
+            China
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" name="country" value="5">
+            India
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" name="country" value="6">
+            Pakistan
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" name="country" value="7">
+            Saudi Arabia
+          </label>
+        </li>
+        <!-- Add more countries as needed -->
+      </ul>
+    </fieldset>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('preferencesForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get name
+      const participantName = document.getElementById('participantName').value;
+
+      // Get selected countries
+      const selectedCountries = Array.from(document.querySelectorAll('input[name="country"]:checked'))
+        .map(checkbox => checkbox.value);
+
+      // Check if the maximum number of selections is exceeded
+      if (selectedCountries.length > 5) {
+        alert('You can select up to 5 countries.');
+        return;
+      }
+
+      // Send the selected countries to the server for processing
+      // Replace the URL with your API endpoint
+      const url = 'http://54.250.71.237:2021/preferences';
+      
+      const data = { participantName,countries: selectedCountries };
+      console.log(data)
+      // Make an AJAX request to submit the preferences
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => {
+      // Handle the response from the server
+        console.log(result);
+        if (result.success) {
+          alert(result.message);
+          window.location.href = '/result'; // Redirect to the result page
+        } else {
+          alert(result.message);
+        }
+      })
+      .catch(error => {
+        // Handle errors
+        console.error(error);
+        alert('An error occurred. Please try again.');
+      });
+    });
+    function checkBoxLimit() {
+	    var checkBoxGroup = document.forms['preferencesForm']['country'];			
+	    var limit = 5;
+	    for (var i = 0; i < checkBoxGroup.length; i++) {
+		    checkBoxGroup[i].onclick = function() {
+			    var checkedcount = 0;
+			    for (var i = 0; i < checkBoxGroup.length; i++) {
+				    checkedcount += (checkBoxGroup[i].checked) ? 1 : 0;
+			    }
+			    if (checkedcount > limit) {
+				    console.log("You can select maximum of " + limit + " checkboxes.");
+				    alert("You can select maximum of " + limit + " checkboxes.");						
+				    this.checked = false;
+			    }
+		    }
+	    }
+    }
+    checkBoxLimit()
+  </script>
+</body>
+</html>
